@@ -24,9 +24,7 @@ def preprocessdata(stock):
         response = requests.get(url, headers=headers, params=querystring)
         print(response.status_code)
         a =  response.json()
-        print(a)
         data = pd.DataFrame(a["prices"])
-        print(data)
         if stock =="AAPL" or stock =="MSFT" or stock =="ASML" or data.shape[1]==10:
             data = data.drop(columns=["date","volume","adjclose",'amount','type','data'],axis=1)
         if stock =="TSLA" or data.shape[1]==7:
@@ -34,7 +32,6 @@ def preprocessdata(stock):
         data = data.dropna()
         x = data.iloc[:,:-1]
         y = data.iloc[:,-1:]
-        print(y)
         X_train,X_test,y_train,y_test = train_test_split(x,y,test_size=0.2)
         model = keras.Sequential()
         model.add(Dense(5,activation="relu"))
