@@ -25,10 +25,7 @@ def preprocessdata(stock):
         print(response.status_code)
         a =  response.json()
         data = pd.DataFrame(a["prices"])
-        if stock =="AAPL" or stock =="MSFT" or stock =="ASML" or data.shape[1]==10:
-            data = data.drop(columns=["date","volume","adjclose",'amount','type','data'],axis=1)
-        if stock =="TSLA" or data.shape[1]==7:
-            data = data.drop(columns=["date","volume","adjclose"],axis=1)
+        data = data.drop(columns=["date","volume","adjclose",'amount','type','data'],axis=1)
         data = data.dropna()
         x = data.iloc[:,:-1]
         y = data.iloc[:,-1:]
