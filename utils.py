@@ -25,7 +25,10 @@ def preprocessdata(stock):
         print(response.status_code)
         a =  response.json()
         data = pd.DataFrame(a["prices"])
-        data = data.drop(columns=["date","volume","adjclose",'amount','type','data'],axis=1)
+        if stock =="AAPL" or stock =="MSFT" or stock =="ASML" or data.shape[1]==10:
+            data = data.drop(columns=["date","volume","adjclose",'amount','type','data'],axis=1)
+        if stock =="TSLA" or data.shape[1]==7:
+            data = data.drop(columns=["date","volume","adjclose"],axis=1)
         data = data.dropna()
         x = data.iloc[:,:-1]
         y = data.iloc[:,-1:]
@@ -39,7 +42,7 @@ def preprocessdata(stock):
         model.add(Dense(25,activation="relu"))
         model.add(Dense(1))
         model.compile(optimizer="adam", loss="mean_squared_error", metrics=["mean_squared_error"])
-        model.fit(X_train,y_train,epochs = 100)
+        model.fit(X_train,y_train,epochs = 20)
         y_pred = model.predict(X_test)
         print(y_pred[0][0])
         original = np.array(y_test)
